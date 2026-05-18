@@ -1,0 +1,14 @@
+{
+  "example_faction": {
+    "groups": {
+      "core": [
+        "example_account"
+      ],
+      "related": [
+        "another_account",
+        "third_account"
+      ]
+    },
+    "last_sync_ts": null
+  }
+}

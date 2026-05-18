@@ -1,0 +1,19 @@
+[project]
+name = "twitter-x-rss"
+version = "0.1.0"
+description = "Local Twitter/X RSS skill helper"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28.1",
+]
+
+[project.scripts]
+twitter-x-rss = "cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["cli", "db", "models", "parser", "rss_client", "storage"]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
