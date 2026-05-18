@@ -4,6 +4,7 @@ import argparse
 import asyncio
 import json
 import os
+import random
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -36,6 +37,8 @@ SKILL_DIR = _find_skill_dir()
 DEFAULT_DATA_DIR = SKILL_DIR / "data"
 DEFAULT_DB_PATH = DEFAULT_DATA_DIR / "data.db"
 DEFAULT_FACTIONS_PATH = SKILL_DIR / "config" / "factions.json"
+DEFAULT_FACTION_REQUEST_DELAY_MIN_SECONDS = 1.2
+DEFAULT_FACTION_REQUEST_DELAY_MAX_SECONDS = 1.5
 
 
 def parse_time_input(value: str, *, default_tz: ZoneInfo = SH_TZ) -> int:
@@ -222,8 +225,20 @@ def build_parser() -> argparse.ArgumentParser:
     update_faction.add_argument(
         "--concurrency",
         type=int,
-        default=4,
+        default=1,
         help="Concurrent fetch workers for faction update",
+    )
+    update_faction.add_argument(
+        "--request-delay-min",
+        type=float,
+        default=DEFAULT_FACTION_REQUEST_DELAY_MIN_SECONDS,
+        help="Minimum seconds to wait between faction RSS request starts",
+    )
+    update_faction.add_argument(
+        "--request-delay-max",
+        type=float,
+        default=DEFAULT_FACTION_REQUEST_DELAY_MAX_SECONDS,
+        help="Maximum seconds to wait between faction RSS request starts",
     )
 
     query_faction = subparsers.add_parser("query-faction", help="Query local posts for all accounts in a faction")
@@ -417,14 +432,32 @@ async def _fetch_and_parse_accounts(
     accounts: list[str],
     base_url: str,
     concurrency: int,
+    request_delay_min: float,
+    request_delay_max: float,
 ) -> dict[str, dict[str, Any]]:
     client = RSSClient(base_url=base_url)
     sem = asyncio.Semaphore(max(1, concurrency))
+    request_lock = asyncio.Lock()
+    next_request_at = 0.0
+
+    async def wait_for_request_slot() -> None:
+        nonlocal next_request_at
+        if request_delay_max <= 0:
+            return
+
+        async with request_lock:
+            loop = asyncio.get_running_loop()
+            now = loop.time()
+            if now < next_request_at:
+                await asyncio.sleep(next_request_at - now)
+                now = loop.time()
+            next_request_at = now + random.uniform(request_delay_min, request_delay_max)
 
     async def worker(username: str, shared_client: Any) -> tuple[str, dict[str, Any]]:
         normalized_username = _normalize_username(username)
         async with sem:
             try:
+                await wait_for_request_slot()
                 response = await client.fetch_user_rss_async(normalized_username, client=shared_client)
                 parsed = parse_rss(response.xml_text, username=normalized_username, rss_url=response.rss_url)
                 return normalized_username, {
@@ -686,7 +719,27 @@ def run_update_faction(
     print_json: bool,
     no_json_archive: bool,
     concurrency: int,
+    request_delay_min: float,
+    request_delay_max: float,
 ) -> int:
+    request_delay_min = max(0.0, request_delay_min)
+    request_delay_max = max(0.0, request_delay_max)
+    if request_delay_min > request_delay_max:
+        print(
+            json.dumps(
+                {
+                    "mode": "update-faction",
+                    "faction": faction,
+                    "error": "--request-delay-min must be less than or equal to --request-delay-max",
+                    "request_delay_min": request_delay_min,
+                    "request_delay_max": request_delay_max,
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return 1
+
     try:
         factions = _load_factions(factions_path)
         faction_key, faction_entry = _get_faction(factions, faction)
@@ -714,6 +767,8 @@ def run_update_faction(
             accounts=accounts,
             base_url=base_url,
             concurrency=concurrency,
+            request_delay_min=request_delay_min,
+            request_delay_max=request_delay_max,
         )
     )
 
@@ -773,6 +828,10 @@ def run_update_faction(
         "factions_path": str(Path(factions_path).resolve()),
         "db_path": str(Path(db_path).resolve()),
         "account_count": len(accounts),
+        "request_delay_seconds": {
+            "min": request_delay_min,
+            "max": request_delay_max,
+        },
         "success_count": success_count,
         "failed_count": failed_count,
         "last_sync_ts": now_ts,
@@ -934,6 +993,8 @@ def main() -> None:
             print_json=args.print_json,
             no_json_archive=args.no_json_archive,
             concurrency=args.concurrency,
+            request_delay_min=args.request_delay_min,
+            request_delay_max=args.request_delay_max,
         )
         raise SystemExit(code)
 
