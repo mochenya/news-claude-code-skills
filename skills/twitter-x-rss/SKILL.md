@@ -1,6 +1,7 @@
 ---
 name: twitter-x-rss
 description: Use the local twitter-x-rss CLI to update and query X/Nitter RSS posts by account or faction. Trigger this skill when the user asks for local X/Twitter RSS collection, faction updates, faction queries, or checking posts from configured account groups.
+allowed-tools: Bash(uv *)
 ---
 
 # Twitter X RSS

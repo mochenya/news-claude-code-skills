@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "news-skills",
+  "description": "News and social feed collection skills for Claude Code",
+  "version": "1.0.0",
+  "author": {
+    "name": "mochenya"
+  }
+}
