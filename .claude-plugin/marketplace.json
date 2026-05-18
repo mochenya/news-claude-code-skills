@@ -1,0 +1,14 @@
+{
+  "name": "news-claude-code-skills",
+  "description": "Marketplace for news and social feed Claude Code skills",
+  "owner": {
+    "name": "mochenya"
+  },
+  "plugins": [
+    {
+      "name": "news-skills",
+      "source": "./plugins/news-skills",
+      "description": "News and social feed collection skills for Claude Code"
+    }
+  ]
+}
