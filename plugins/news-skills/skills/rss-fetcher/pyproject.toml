@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rss-policy-ai-news"
+version = "1.0.0"
+description = "RSS news fetching utilities focused on politics, policy, geopolitics, and AI"
+requires-python = ">=3.12"
+dependencies = [
+    "feedparser>=6.0.12",
+]
+
+[project.scripts]
+news = "cli.main:main"
+rss-fetch = "cli.rss_fetch:main"
+news-fetch = "cli.news_fetch:main"
+news-sync = "cli.news_sync:main"
+news-query = "cli.news_query:main"
+
+[tool.hatch.build.targets.wheel]
+only-include = [
+    "scripts/cli",
+    "scripts/lib",
+]
+sources = ["scripts"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"scripts/data" = "data"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/README.md",
+    "/SKILL.md",
+    "/package.sh",
+    "/references",
+    "/scripts",
+]

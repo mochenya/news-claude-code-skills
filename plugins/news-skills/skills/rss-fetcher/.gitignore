@@ -1,0 +1,39 @@
+# Python cache / build outputs
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+wheels/
+pip-wheel-metadata/
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+
+# Local env / secrets
+.env
+.env.*
+!.env.example
+
+# Runtime data
+scripts/data/news.db*
+*.sqlite
+*.sqlite3
+*.log
+
+# Skill package outputs
+*.skill
+
+# OS / editor noise
+.DS_Store
+.idea/
+.vscode/

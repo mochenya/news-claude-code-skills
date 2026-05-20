@@ -1,0 +1,422 @@
+{
+  "categories": [
+    {
+      "key": "top",
+      "name": "头版 / 综合头条",
+      "enabled": true,
+      "order": 10,
+      "sources": [
+        {
+          "key": "top-the-hill",
+          "name": "The Hill",
+          "url": "https://thehill.com/homenews/feed/",
+          "enabled": true
+        },
+        {
+          "key": "top-politico",
+          "name": "Politico",
+          "url": "https://rss.politico.com/politics-news.xml",
+          "enabled": true
+        },
+        {
+          "key": "top-nytimes",
+          "name": "NYTimes",
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+          "enabled": true
+        },
+        {
+          "key": "top-washington-post",
+          "name": "Washington Post",
+          "url": "https://feeds.washingtonpost.com/rss/politics",
+          "enabled": true
+        },
+        {
+          "key": "top-npr",
+          "name": "NPR",
+          "url": "https://feeds.npr.org/1001/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "top-bbc-world",
+          "name": "BBC World",
+          "url": "https://feeds.bbci.co.uk/news/rss.xml",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "key": "world",
+      "name": "世界",
+      "enabled": true,
+      "order": 20,
+      "sources": [
+        {
+          "key": "world-nytimes-world",
+          "name": "NYTimes World",
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+          "enabled": true
+        },
+        {
+          "key": "world-washington-post-world",
+          "name": "Washington Post World",
+          "url": "https://feeds.washingtonpost.com/rss/world",
+          "enabled": true
+        },
+        {
+          "key": "world-npr-world",
+          "name": "NPR World",
+          "url": "https://feeds.npr.org/1004/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "world-bbc-world",
+          "name": "BBC World",
+          "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "world-bbc-asia",
+          "name": "BBC Asia",
+          "url": "https://feeds.bbci.co.uk/news/world/asia/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "world-bbc-europe",
+          "name": "BBC Europe",
+          "url": "https://feeds.bbci.co.uk/news/world/europe/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "world-bbc-africa",
+          "name": "BBC Africa",
+          "url": "https://feeds.bbci.co.uk/news/world/africa/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "world-bbc-latin-america",
+          "name": "BBC Latin America",
+          "url": "https://feeds.bbci.co.uk/news/world/latin_america/rss.xml",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "key": "gov",
+      "name": "美国政府",
+      "enabled": true,
+      "order": 30,
+      "sources": [
+        {
+          "key": "gov-the-hill-administration",
+          "name": "The Hill Administration",
+          "url": "https://thehill.com/homenews/administration/feed/",
+          "enabled": true
+        },
+        {
+          "key": "gov-the-hill-senate",
+          "name": "The Hill Senate",
+          "url": "https://thehill.com/homenews/senate/feed/",
+          "enabled": true
+        },
+        {
+          "key": "gov-the-hill-house",
+          "name": "The Hill House",
+          "url": "https://thehill.com/homenews/house/feed/",
+          "enabled": true
+        },
+        {
+          "key": "gov-politico-white-house",
+          "name": "Politico White House",
+          "url": "https://rss.politico.com/white-house.xml",
+          "enabled": true
+        },
+        {
+          "key": "gov-politico-congress",
+          "name": "Politico Congress",
+          "url": "https://rss.politico.com/congress.xml",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "key": "politics",
+      "name": "美国政治",
+      "enabled": true,
+      "order": 40,
+      "sources": [
+        {
+          "key": "politics-the-hill-politics",
+          "name": "The Hill Politics",
+          "url": "https://thehill.com/homenews/feed/",
+          "enabled": true
+        },
+        {
+          "key": "politics-politico-politics",
+          "name": "Politico Politics",
+          "url": "https://rss.politico.com/politics-news.xml",
+          "enabled": true
+        },
+        {
+          "key": "politics-nytimes-politics",
+          "name": "NYTimes Politics",
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
+          "enabled": true
+        },
+        {
+          "key": "politics-washington-post-politics",
+          "name": "Washington Post Politics",
+          "url": "https://feeds.washingtonpost.com/rss/politics",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "key": "us",
+      "name": "美国国家",
+      "enabled": true,
+      "order": 50,
+      "sources": [
+        {
+          "key": "us-nytimes-us",
+          "name": "NYTimes US",
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+          "enabled": true
+        },
+        {
+          "key": "us-npr-us",
+          "name": "NPR US",
+          "url": "https://feeds.npr.org/1008/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "us-bbc-us-canada",
+          "name": "BBC US & Canada",
+          "url": "https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "key": "ai",
+      "name": "AI / 人工智能",
+      "enabled": true,
+      "order": 55,
+      "sources": [
+        {
+          "key": "ai-the-decoder",
+          "name": "The Decoder",
+          "url": "https://the-decoder.com/feed/",
+          "enabled": true
+        },
+        {
+          "key": "ai-venturebeat",
+          "name": "VentureBeat",
+          "url": "https://venturebeat.com/feed",
+          "enabled": true
+        },
+        {
+          "key": "ai-the-verge-ai",
+          "name": "The Verge | AI",
+          "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+          "enabled": true
+        },
+        {
+          "key": "ai-openai-news",
+          "name": "OpenAI News",
+          "url": "https://openai.com/blog/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "ai-google-deepmind-news",
+          "name": "Google DeepMind News",
+          "url": "https://deepmind.google/blog/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "ai-mit-technology-review",
+          "name": "MIT Technology Review",
+          "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+          "enabled": true
+        },
+        {
+          "key": "ai-techcrunch-ai",
+          "name": "TechCrunch AI",
+          "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+          "enabled": true
+        },
+        {
+          "key": "ai-google-ai-blog",
+          "name": "Google AI Blog",
+          "url": "https://blog.google/technology/ai/rss/",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "key": "middle-east",
+      "name": "中东",
+      "enabled": true,
+      "order": 60,
+      "sources": [
+        {
+          "key": "middle-east-nytimes-middle-east",
+          "name": "NYTimes Middle East",
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/MiddleEast.xml",
+          "enabled": true
+        },
+        {
+          "key": "middle-east-bbc-middle-east",
+          "name": "BBC Middle East",
+          "url": "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "middle-east-al-jazeera",
+          "name": "Al Jazeera",
+          "url": "https://www.aljazeera.com/xml/rss/all.xml",
+          "enabled": true
+        },
+        {
+          "key": "middle-east-al-monitor",
+          "name": "Al-Monitor",
+          "url": "https://www.al-monitor.com/rss",
+          "enabled": true
+        },
+        {
+          "key": "middle-east-middle-east-eye",
+          "name": "Middle East Eye",
+          "url": "https://www.middleeasteye.net/rss",
+          "enabled": true
+        },
+        {
+          "key": "middle-east-middle-east-monitor",
+          "name": "Middle East Monitor",
+          "url": "https://www.middleeastmonitor.com/rss",
+          "enabled": true
+        },
+        {
+          "key": "middle-east-iran-international",
+          "name": "Iran International",
+          "url": "https://www.iranintl.com/feed",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "key": "russia-ukraine",
+      "name": "俄乌",
+      "enabled": true,
+      "order": 70,
+      "sources": [
+        {
+          "key": "russia-ukraine-nytimes-ukraine",
+          "name": "NYTimes Ukraine",
+          "url": "https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml",
+          "enabled": true
+        },
+        {
+          "key": "russia-ukraine-financial-times-russia",
+          "name": "Financial Times Russia",
+          "url": "https://www.ft.com/war-in-ukraine?format=rss",
+          "enabled": true
+        },
+        {
+          "key": "russia-ukraine-bbc-europe",
+          "name": "BBC Europe",
+          "url": "https://feeds.bbci.co.uk/news/world/europe/rss.xml",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "key": "indonesia",
+      "name": "印尼",
+      "enabled": true,
+      "order": 80,
+      "sources": [
+        {
+          "key": "indonesia-antara-news",
+          "name": "ANTARA News",
+          "url": "https://en.antaranews.com/rss/news.xml",
+          "enabled": true
+        },
+        {
+          "key": "indonesia-cnn-indonesia",
+          "name": "CNN Indonesia",
+          "url": "https://www.cnnindonesia.com/ekonomi/rss",
+          "enabled": true
+        },
+        {
+          "key": "indonesia-tempo-bisnis",
+          "name": "Tempo Bisnis",
+          "url": "https://rss.tempo.co/bisnis",
+          "enabled": true
+        },
+        {
+          "key": "indonesia-cnbc-indonesia-market",
+          "name": "CNBC Indonesia Market",
+          "url": "https://www.cnbcindonesia.com/market/rss",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "key": "japan",
+      "name": "日本",
+      "enabled": true,
+      "order": 90,
+      "sources": [
+        {
+          "key": "japan-nhk",
+          "name": "NHK",
+          "url": "https://www3.nhk.or.jp/rss/news/cat0.xml",
+          "enabled": true
+        },
+        {
+          "key": "japan-asahi-shimbun-politics",
+          "name": "Asahi Shimbun Politics",
+          "url": "https://www.asahi.com/rss/asahi/politics.rdf",
+          "enabled": true
+        },
+        {
+          "key": "japan-the-japan-times",
+          "name": "The Japan Times",
+          "url": "https://www.japantimes.co.jp/feed/",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "key": "korea",
+      "name": "韩国",
+      "enabled": true,
+      "order": 100,
+      "sources": [
+        {
+          "key": "korea-yonhap-politics",
+          "name": "Yonhap Politics",
+          "url": "https://www.yna.co.kr/rss/politics.xml",
+          "enabled": true
+        },
+        {
+          "key": "korea-chosun-ilbo-politics",
+          "name": "Chosun Ilbo Politics",
+          "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/politics/?outputType=xml",
+          "enabled": true
+        },
+        {
+          "key": "korea-yonhap-economy",
+          "name": "Yonhap Economy",
+          "url": "https://cn.yna.co.kr/RSS/economy.xml",
+          "enabled": true
+        },
+        {
+          "key": "korea-korea-times-economy",
+          "name": "The Korea Times Economy",
+          "url": "https://feed.koreatimes.co.kr/k/economy.xml",
+          "enabled": true
+        }
+      ]
+    }
+  ]
+}
