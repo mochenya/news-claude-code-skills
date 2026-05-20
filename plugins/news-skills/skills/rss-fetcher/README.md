@@ -7,7 +7,7 @@
 ## 目录结构
 
 ```text
-rss-policy-ai-news/
+rss-fetcher/
 ├── README.md
 ├── SKILL.md
 ├── pyproject.toml
@@ -37,7 +37,7 @@ rss-policy-ai-news/
 
 - `scripts/data/sources.json`：来源配置真相，长期维护这里
 - `scripts/data/news.db`：运行时 SQLite 数据库
-- `scripts/cli/main.py`：统一命令入口，推荐配合 `uv run news ...`
+- `scripts/cli/main.py`：统一命令入口，推荐配合 `uv run --directory {SKILL_DIR} news ...`
 - `scripts/cli/rss_fetch.py`：单 RSS URL 抓取
 - `scripts/cli/news_fetch.py`：按 category live fetch
 - `scripts/cli/news_sync.py`：同步 sources.json 到 SQLite
@@ -48,8 +48,8 @@ rss-policy-ai-news/
 
 - Python: `>=3.12`
 - 依赖: `feedparser>=6.0.12`
-- 安装：`uv sync`
-- 运行入口：`project.scripts` + `hatchling`，推荐 `uv run news ...`
+- 安装：`uv sync --directory {SKILL_DIR}`
+- 运行入口：`project.scripts` + `hatchling`，推荐 `uv run --directory {SKILL_DIR} news ...`
 
 ## sources.json 最小结构
 
@@ -82,51 +82,51 @@ rss-policy-ai-news/
 
 ### 统一入口
 ```bash
-uv run news rss <rss_url>
-uv run news fetch <category>
-uv run news sync <category>
-uv run news query <category> --since 24h
+uv run --directory {SKILL_DIR} news rss <rss_url>
+uv run --directory {SKILL_DIR} news fetch <category>
+uv run --directory {SKILL_DIR} news sync <category>
+uv run --directory {SKILL_DIR} news query <category> --since 24h
 ```
 
 ### 单 RSS 抓取
 ```bash
-uv run news rss <rss_url>
-uv run news rss <rss_url> --limit 5
-uv run news rss <rss_url> --format json
+uv run --directory {SKILL_DIR} news rss <rss_url>
+uv run --directory {SKILL_DIR} news rss <rss_url> --limit 5
+uv run --directory {SKILL_DIR} news rss <rss_url> --format json
 ```
 
 ### 按 category live fetch
 ```bash
-uv run news fetch <category>
-uv run news fetch <category> --limit 5
-uv run news fetch <category> --format json
-uv run news fetch --list
-uv run news fetch --all
+uv run --directory {SKILL_DIR} news fetch <category>
+uv run --directory {SKILL_DIR} news fetch <category> --limit 5
+uv run --directory {SKILL_DIR} news fetch <category> --format json
+uv run --directory {SKILL_DIR} news fetch --list
+uv run --directory {SKILL_DIR} news fetch --all
 ```
 
 ### 同步入库
 ```bash
-uv run news sync <category>
-uv run news sync --all
+uv run --directory {SKILL_DIR} news sync <category>
+uv run --directory {SKILL_DIR} news sync --all
 ```
 
 ### SQLite 查询
 ```bash
-uv run news query <category>
-uv run news query <category> --limit 10
-uv run news query <category> --since '2026-03-09T18:00:00+08:00'
-uv run news query <category> --since 24h
-uv run news query <category> --since '2026-03-09T00:00:00+08:00' --until '2026-03-10T00:00:00+08:00'
-uv run news query --all --since 6h -f json
-uv run news query --list
+uv run --directory {SKILL_DIR} news query <category>
+uv run --directory {SKILL_DIR} news query <category> --limit 10
+uv run --directory {SKILL_DIR} news query <category> --since '2026-03-09T18:00:00+08:00'
+uv run --directory {SKILL_DIR} news query <category> --since 24h
+uv run --directory {SKILL_DIR} news query <category> --since '2026-03-09T00:00:00+08:00' --until '2026-03-10T00:00:00+08:00'
+uv run --directory {SKILL_DIR} news query --all --since 6h -f json
+uv run --directory {SKILL_DIR} news query --list
 ```
 
 ### 直接短命令别名
 ```bash
-uv run rss-fetch <rss_url>
-uv run news-fetch <category>
-uv run news-sync <category>
-uv run news-query <category>
+uv run --directory {SKILL_DIR} rss-fetch <rss_url>
+uv run --directory {SKILL_DIR} news-fetch <category>
+uv run --directory {SKILL_DIR} news-sync <category>
+uv run --directory {SKILL_DIR} news-query <category>
 ```
 
 ## 参数速查
@@ -159,10 +159,10 @@ uv run news-query <category>
 ## 推荐工作流
 
 ```bash
-uv run news sync middle-east
-uv run news query middle-east --since 24h
+uv run --directory {SKILL_DIR} news sync middle-east
+uv run --directory {SKILL_DIR} news query middle-east --since 24h
 ```
 
 ```bash
-uv run news query middle-east --since 2026-03-09 --until 2026-03-10
+uv run --directory {SKILL_DIR} news query middle-east --since 2026-03-09 --until 2026-03-10
 ```

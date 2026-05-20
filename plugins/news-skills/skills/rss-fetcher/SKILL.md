@@ -23,16 +23,16 @@ Choose the right command based on what the user provides:
 | Needs time-window filtering | `news sync` then `news query` | `news sync us && news query us --since 24h` |
 | "All news" or no specific topic | `news fetch --all` | `news fetch --all` |
 
-All commands use the prefix: `uv run --directory {baseDir}`
+All commands use the prefix: `uv run --directory {SKILL_DIR}`
 
 ## Fetch news
 
 ### Built-in categories
 
 ```bash
-uv run --directory {baseDir} news fetch <category>
-uv run --directory {baseDir} news fetch --all
-uv run --directory {baseDir} news fetch <category> -l 20
+uv run --directory {SKILL_DIR} news fetch <category>
+uv run --directory {SKILL_DIR} news fetch --all
+uv run --directory {SKILL_DIR} news fetch <category> -l 20
 ```
 
 Available categories: `top` · `world` · `gov` · `politics` · `us` · `middle-east` · `russia-ukraine` · `indonesia` · `japan` · `korea` · `ai`
@@ -40,9 +40,9 @@ Available categories: `top` · `world` · `gov` · `politics` · `us` · `middle
 For time-window queries, sync to SQLite first:
 
 ```bash
-uv run --directory {baseDir} news sync <category>
-uv run --directory {baseDir} news query <category> --since 24h
-uv run --directory {baseDir} news query <category> --since '2026-03-09T00:00:00+08:00' --until '2026-03-10T00:00:00+08:00'
+uv run --directory {SKILL_DIR} news sync <category>
+uv run --directory {SKILL_DIR} news query <category> --since 24h
+uv run --directory {SKILL_DIR} news query <category> --since '2026-03-09T00:00:00+08:00' --until '2026-03-10T00:00:00+08:00'
 ```
 
 Prefer ISO 8601 with timezone for `--since` / `--until`. See `references/cli.md` for the full command reference.
@@ -54,8 +54,8 @@ For any region- or topic-specific request, always scan the `top` feed in paralle
 ### Direct RSS URL
 
 ```bash
-uv run --directory {baseDir} news rss <RSS_URL>
-uv run --directory {baseDir} news rss <RSS_URL> -l 20
+uv run --directory {SKILL_DIR} news rss <RSS_URL>
+uv run --directory {SKILL_DIR} news rss <RSS_URL> -l 20
 ```
 
 Infer source, region, and topic from the feed URL or metadata. Do not ask follow-up questions unless the feed is unreadable or clearly ambiguous.
