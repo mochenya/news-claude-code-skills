@@ -1,78 +1,75 @@
 ---
 name: twitter-x-rss
-description: Use the local twitter-x-rss CLI to update and query X/Nitter RSS posts by account or faction. Trigger this skill when the user asks for local X/Twitter RSS collection, faction updates, faction queries, or checking posts from configured account groups.
+description: >-
+  Incrementally monitor X/Twitter usernames or configured factions with the
+  local twitter-x-rss CLI, then query collected recent posts for summaries.
+  Use for requests such as “同步账号/阵营” or “看看某人最近发了什么”. Do not
+  use for live/full X search, specific-post lookup, exact-date/history
+  retrieval, or official X API actions.
 allowed-tools: Bash(uv *)
 ---
 
-# Twitter X RSS
+# Twitter/X RSS Monitor
 
-Use this skill's CLI to collect and query local Twitter/X RSS data.
+Maintain a local, incremental collection of posts observed from a third-party
+RSS mirror. Use it for monitored usernames or configured factions and for
+summaries based on posts already collected. Do not present the collection as a
+complete X archive or as live search.
 
-Run commands from this skill environment:
+## Setup and command prefix
+
+When the environment is missing or dependencies changed, synchronize it once:
+
+```bash
+uv sync --directory {SKILL_DIR}
+```
+
+Run the CLI with:
 
 ```bash
 uv run --directory {SKILL_DIR} twitter-x-rss <command>
 ```
 
-The default output is made for terminal reading. Only add `--json` when another script needs to parse the result.
+The default output is concise terminal text. Use JSON output when another
+command or script must parse the result.
+
+## Route each request
+
+Decline direct-post, exact-date, or complete-history lookups unless the user
+explicitly asks for a summary of the local monitoring collection. Explain that
+the RSS mirror cannot retrieve missing posts retroactively.
+
+1. Resolve the target as one username or a configured faction. Read
+   `config/factions.json` when the faction name or membership is unclear.
+2. Resolve the requested window in `Asia/Shanghai`. Use `[start, end)`;
+   `--end` defaults to now. Interpret “today” as today at 00:00 through now,
+   and “recently” without a window as the latest 24 hours unless the user says
+   otherwise.
+3. Refresh before reading when the user asks for latest/current/recent posts or
+   a daily monitoring update. Use `update` for one username and
+   `update-faction` for a configured faction.
+4. Query after a successful refresh when the user needs posts to summarize.
+   For a local or previously collected window, skip refresh and query directly.
+5. Treat an empty query as “no collected posts in this window”, not proof that
+   the account posted nothing. If refresh fails or a faction refresh is partial,
+   report the failure and do not describe the result as complete.
 
 ## Common commands
 
-Update one account:
-
 ```bash
 uv run --directory {SKILL_DIR} twitter-x-rss update <username>
-```
-
-Query one account:
-
-```bash
 uv run --directory {SKILL_DIR} twitter-x-rss query <username> --start <start> --end <end>
-```
-
-Update one faction:
-
-```bash
 uv run --directory {SKILL_DIR} twitter-x-rss update-faction <faction>
-```
-
-Query one faction:
-
-```bash
 uv run --directory {SKILL_DIR} twitter-x-rss query-faction <faction> --start <start> --end <end>
 ```
 
-## Useful examples
-
-```bash
-uv run --directory {SKILL_DIR} twitter-x-rss update elonmusk
-uv run --directory {SKILL_DIR} twitter-x-rss query elonmusk --start 2026-03-07 --end 2026-03-08
-uv run --directory {SKILL_DIR} twitter-x-rss update-faction musk
-uv run --directory {SKILL_DIR} twitter-x-rss query-faction musk --start "2026-03-07 09:00" --end "2026-03-07 12:00"
-```
-
-## Time formats
-
-These formats work:
-
-```text
-2026-03-07
-2026-03-07 09:00
-2026-03-07 09:00:30
-1772812800
-2026-03-07T09:00:00+08:00
-2026-03-07T01:00:00Z
-```
+Updates incrementally store observations in the default SQLite database at
+`{SKILL_DIR}/data/data.db`. A query can only return posts that an earlier
+update captured; it cannot fetch a missing historical or exact-date post.
 
 ## References
 
 Read these only when needed:
 
-- `references/factions-json.md` — how to write `config/factions.json`
-- `references/advanced-cli.md` — less common CLI options
-
-## Notes
-
-- Factions are defined in `config/factions.json`.
-- Local data is stored under `{SKILL_DIR}/data/` by default.
-- If a query returns no rows, run the matching update command first, then query again.
+- `references/factions-json.md` — faction configuration and validation rules
+- `references/advanced-cli.md` — JSON output, custom paths, and fetch tuning

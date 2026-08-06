@@ -30,6 +30,8 @@ class RSSResponse:
     username: str
     rss_url: str
     final_url: str
+    status_code: int
+    content_type: str
     xml_text: str
 
 
@@ -64,6 +66,8 @@ class RSSClient:
             username=username.strip().lstrip("@"),
             rss_url=rss_url,
             final_url=str(response.url),
+            status_code=response.status_code,
+            content_type=content_type,
             xml_text=text,
         )
 
