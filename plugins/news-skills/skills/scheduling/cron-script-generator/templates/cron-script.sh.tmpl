@@ -1,0 +1,78 @@
+#!/bin/sh
+set -u
+
+HOME="${HOME:-/home/lht}"
+USER="${USER:-lht}"
+LOGNAME="${LOGNAME:-lht}"
+SHELL="${SHELL:-/bin/sh}"
+LANG="${LANG:-C.UTF-8}"
+LC_ALL="${LC_ALL:-C.UTF-8}"
+TZ="${TZ:-Asia/Shanghai}"
+
+export HOME USER LOGNAME SHELL LANG LC_ALL TZ
+
+PROFILE_DIR="{{PROFILE_DIR}}"
+PROFILE_NAME="{{PROFILE_NAME}}"
+# JOB_NAME="{{JOB_NAME}}"           # 可选：中文任务名，仅日志标识
+# DELIVER="{{DELIVER}}"             # 可选：投递目标，仅文档记录
+HERMES_QUERY="$(cat <<'EOF'
+{{HERMES_QUERY}}
+EOF
+)"
+
+LOG_DIR="$PROFILE_DIR/logs/cron"
+LOG_FILE="$LOG_DIR/{{JOB_SLUG}}.log"
+LOCK_FILE="$PROFILE_DIR/cron/{{JOB_SLUG}}.lock"
+
+PATH="/home/lht/.local/bin:/home/lht/.hermes/bin:/home/lht/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin${PATH:+:$PATH}"
+export PATH
+
+mkdir -p "$LOG_DIR" "$PROFILE_DIR/cron"
+
+exec >> "$LOG_FILE" 2>&1
+
+timestamp() {
+  date '+%Y-%m-%d %H:%M:%S %z'
+}
+
+printf '\n[%s] start {{JOB_SLUG}}\n' "$(timestamp)"
+printf '[%s] cwd=%s\n' "$(timestamp)" "$PROFILE_DIR"
+
+if command -v flock >/dev/null 2>&1; then
+  exec 9>"$LOCK_FILE"
+  if ! flock -n 9; then
+    printf '[%s] another run is active, exiting\n' "$(timestamp)"
+    exit 0
+  fi
+fi
+
+if [ ! -f "$HOME/.shell_env" ]; then
+  printf '[%s] missing environment file: %s/.shell_env\n' "$(timestamp)" "$HOME"
+  exit 1
+fi
+
+# Load the same non-interactive environment used by manual runs.
+. "$HOME/.shell_env"
+
+if [ ! -d "$PROFILE_DIR" ]; then
+  printf '[%s] missing profile directory: %s\n' "$(timestamp)" "$PROFILE_DIR"
+  exit 1
+fi
+
+cd "$PROFILE_DIR" || exit 1
+
+if ! command -v hermes >/dev/null 2>&1; then
+  printf '[%s] hermes command not found after loading environment\n' "$(timestamp)"
+  exit 1
+fi
+
+if [ "${DRY_RUN:-0}" = "1" ]; then
+  printf '[%s] dry run command: hermes chat -q \"%s\" --profile %s\n' "$(timestamp)" "$HERMES_QUERY" "$PROFILE_NAME"
+  exit 0
+fi
+
+hermes chat -q "$HERMES_QUERY" --profile "$PROFILE_NAME"
+status=$?
+
+printf '[%s] finished with status=%s\n' "$(timestamp)" "$status"
+exit "$status"
