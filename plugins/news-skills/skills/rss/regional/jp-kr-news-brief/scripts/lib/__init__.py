@@ -1,0 +1,1 @@
+"""Shared helpers for jp-kr-news CLI scripts."""

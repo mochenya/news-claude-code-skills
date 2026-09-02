@@ -1,0 +1,42 @@
+{
+  "categories": [
+    {
+      "key": "jp-kr",
+      "name": "日本·韩国 政经精选",
+      "enabled": true,
+      "order": 10,
+      "sources": [
+        {
+          "key": "nikkei-asia",
+          "name": "Nikkei Asia",
+          "url": "https://asia.nikkei.com/rss/feed/nar",
+          "enabled": true
+        },
+        {
+          "key": "japan-times-business",
+          "name": "Japan Times Business",
+          "url": "https://www.japantimes.co.jp/business/feed/",
+          "enabled": true
+        },
+        {
+          "key": "yonhap-en-all",
+          "name": "Yonhap News (English)",
+          "url": "https://en.yna.co.kr/RSS/news.xml",
+          "enabled": true
+        },
+        {
+          "key": "yonhap-en-economy",
+          "name": "Yonhap Economy (English)",
+          "url": "https://en.yna.co.kr/RSS/economy-finance.xml",
+          "enabled": true
+        },
+        {
+          "key": "korea-herald-business",
+          "name": "Korea Herald Business",
+          "url": "https://www.koreaherald.com/rss/kh_Business",
+          "enabled": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jp-kr-news"
+version = "1.0.0"
+description = "Japan-Korea politics & economy RSS news toolkit — curated feeds for market-hours briefs"
+requires-python = ">=3.12"
+dependencies = [
+    "feedparser>=6.0.12",
+]
+
+[project.scripts]
+jpkr = "cli.main:main"
+
+[tool.hatch.build.targets.wheel]
+only-include = [
+    "scripts/cli",
+    "scripts/lib",
+]
+sources = ["scripts"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"scripts/data" = "data"
