@@ -3,7 +3,7 @@ name: rss-fetcher
 description: >-
   Fetch and format news from built-in RSS category collections or a user-provided RSS URL into a Chinese brief.
   Trigger when the user mentions RSS, feed URLs, built-in categories
-  (top, world, gov, politics, us, middle-east, russia-ukraine, indonesia, japan, korea, ai),
+  (top, world, gov, politics, us, macro-market, middle-east, russia-ukraine, indonesia, japan, korea, ai),
   or phrases like "抓 RSS", "同步新闻源", "查一下 feed", "fetch rss", "news sync", "news query".
   Not for general web search.
 ---
@@ -35,7 +35,7 @@ uv run --directory {SKILL_DIR} news fetch --all
 uv run --directory {SKILL_DIR} news fetch <category> -l 20
 ```
 
-Available categories: `top` · `world` · `gov` · `politics` · `us` · `middle-east` · `russia-ukraine` · `indonesia` · `japan` · `korea` · `ai`
+Available categories: `top` · `world` · `gov` · `politics` · `us` · `macro-market` · `middle-east` · `russia-ukraine` · `indonesia` · `japan` · `korea` · `ai`
 
 For time-window queries, sync to SQLite first:
 

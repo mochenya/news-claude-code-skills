@@ -9,6 +9,7 @@
 # ///
 
 import io
+import os
 import sys
 import urllib.request
 from zoneinfo import ZoneInfo
@@ -22,9 +23,15 @@ SP500_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 
 def get_sp500_constituents() -> dict[str, str]:
     try:
-        req = urllib.request.Request(SP500_URL, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=30) as response:
-            html_content = response.read()
+        local_html = os.environ.get("SP500_HTML_PATH")
+        if local_html and os.path.exists(local_html):
+            # Fallback when Wikipedia rate-limits this host (HTTP 403 Too Many Reqs).
+            with open(local_html, "rb") as fh:
+                html_content = fh.read()
+        else:
+            req = urllib.request.Request(SP500_URL, headers={"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36"})
+            with urllib.request.urlopen(req, timeout=30) as response:
+                html_content = response.read()
         sp500_table = pd.read_html(io.BytesIO(html_content))[0]
     except Exception as exc:
         print(f"Error: failed to fetch S&P 500 constituents: {exc}", file=sys.stderr)

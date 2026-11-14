@@ -170,7 +170,7 @@ Market information is secondary to news unless the user asks for a dedicated mar
 
 Facts and interpretation must be separated. Intraday values need an “as of” timestamp. On holidays, state the closure and never relabel the previous close as today's data.
 
-See `references/intraday-window-patterns.md` for the Japan/Korea three-slot pattern and market-session nuance.
+See `references/intraday-window-patterns.md` for the Japan/Korea three-slot pattern and market-session nuance. For whole-fleet "are our briefs consistent?" reviews, use `references/fleet-audit.md` — regex-compare all launchers from one JSON dump instead of reading them one by one.
 
 ## Common Pitfalls
 
@@ -182,6 +182,9 @@ See `references/intraday-window-patterns.md` for the Japan/Korea three-slot patt
 6. **Overlapping windows** — produces repeated headlines and ambiguous “incremental” claims.
 7. **Calling every midday number a close** — some markets trade continuously; label those as intraday snapshots.
 8. **Removing a launcher but leaving its generator mapping or Hermes job** — the obsolete path can reappear later.
+9. **Unquoted heredoc for `HERMES_QUERY`** — `cat <<EOF` expands backticks/`$` inside the prompt text; always `cat <<'EOF'`.
+10. **Migrated crontab whose prompts reference old-host paths** — after restoring launchers on a new machine, verify every absolute data dir/file referenced by the prompts and their named skills actually exists; a missing one makes a mandated pre-read silently no-op while the job still "succeeds".
+11. **Two jobs sharing one state/brief file or one topic** — a morning brief and a heartbeat that both overwrite the same latest-brief path clobber each other; give each writer its own file or confirm the collision is intended.
 
 ## Verification Checklist
 

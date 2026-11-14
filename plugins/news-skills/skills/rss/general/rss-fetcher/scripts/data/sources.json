@@ -197,6 +197,62 @@
       ]
     },
     {
+      "key": "macro-market",
+      "name": "宏观 / 市场",
+      "enabled": true,
+      "order": 52,
+      "sources": [
+        {
+          "key": "macro-bloomberg-markets",
+          "name": "Bloomberg Markets",
+          "url": "https://feeds.bloomberg.com/markets/news.rss",
+          "enabled": true
+        },
+        {
+          "key": "macro-wsj-markets",
+          "name": "WSJ Markets",
+          "url": "https://feeds.content.dowjones.io/public/rss/RSSMarketsMain",
+          "enabled": true
+        },
+        {
+          "key": "macro-ft-markets",
+          "name": "Financial Times Markets",
+          "url": "https://www.ft.com/markets?format=rss",
+          "enabled": true
+        },
+        {
+          "key": "macro-cnbc-economy",
+          "name": "CNBC Economy",
+          "url": "https://www.cnbc.com/id/20910258/device/rss/rss.html",
+          "enabled": true
+        },
+        {
+          "key": "macro-cnbc-finance",
+          "name": "CNBC Finance",
+          "url": "https://www.cnbc.com/id/10000664/device/rss/rss.html",
+          "enabled": true
+        },
+        {
+          "key": "macro-economist-fin",
+          "name": "The Economist Finance & Economics",
+          "url": "https://www.economist.com/finance-and-economics/rss.xml",
+          "enabled": true
+        },
+        {
+          "key": "macro-fed-press",
+          "name": "Federal Reserve Press",
+          "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+          "enabled": true
+        },
+        {
+          "key": "macro-ecb-press",
+          "name": "ECB Press",
+          "url": "https://www.ecb.europa.eu/rss/press.html",
+          "enabled": true
+        }
+      ]
+    },
+    {
       "key": "ai",
       "name": "AI / 人工智能",
       "enabled": true,
@@ -248,6 +304,54 @@
           "key": "ai-google-ai-blog",
           "name": "Google AI Blog",
           "url": "https://blog.google/technology/ai/rss/",
+          "enabled": true
+        },
+        {
+          "key": "ai-ars-technica",
+          "name": "Ars Technica | AI",
+          "url": "https://arstechnica.com/ai/feed/",
+          "enabled": true
+        },
+        {
+          "key": "ai-google-deepmind-blog",
+          "name": "Google DeepMind Blog",
+          "url": "https://blog.google/technology/google-deepmind/rss/",
+          "enabled": true
+        },
+        {
+          "key": "ai-google-research",
+          "name": "Google Research",
+          "url": "https://research.google/blog/rss/",
+          "enabled": true
+        },
+        {
+          "key": "ai-microsoft-research",
+          "name": "Microsoft Research",
+          "url": "https://www.microsoft.com/en-us/research/feed/",
+          "enabled": true
+        },
+        {
+          "key": "ai-ft-ai",
+          "name": "Financial Times | AI",
+          "url": "https://www.ft.com/artificial-intelligence?format=rss",
+          "enabled": true
+        },
+        {
+          "key": "ai-semianalysis",
+          "name": "SemiAnalysis",
+          "url": "https://www.semianalysis.com/feed",
+          "enabled": true
+        },
+        {
+          "key": "ai-stratechery",
+          "name": "Stratechery",
+          "url": "https://stratechery.com/feed/",
+          "enabled": true
+        },
+        {
+          "key": "ai-qbitai",
+          "name": "量子位",
+          "url": "https://www.qbitai.com/feed",
           "enabled": true
         }
       ]

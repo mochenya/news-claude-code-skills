@@ -46,13 +46,13 @@ if command -v flock >/dev/null 2>&1; then
   fi
 fi
 
-if [ ! -f "$HOME/.shell_env" ]; then
-  printf '[%s] missing environment file: %s/.shell_env\n' "$(timestamp)" "$HOME"
+if [ ! -f "$HOME/.config/env/.shell_env" ]; then
+  printf '[%s] missing environment file: %s/.config/env/.shell_env\n' "$(timestamp)" "$HOME"
   exit 1
 fi
 
 # Load the same non-interactive environment used by manual runs.
-. "$HOME/.shell_env"
+. "$HOME/.config/env/.shell_env"
 
 if [ ! -d "$PROFILE_DIR" ]; then
   printf '[%s] missing profile directory: %s\n' "$(timestamp)" "$PROFILE_DIR"

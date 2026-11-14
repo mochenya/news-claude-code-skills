@@ -113,3 +113,23 @@
 | MIT Technology Review（Artificial Intelligence） | https://www.technologyreview.com/topic/artificial-intelligence/feed |
 | TechCrunch AI | https://techcrunch.com/category/artificial-intelligence/feed/ |
 | Google AI Blog | https://blog.google/technology/ai/rss/ |
+| Ars Technica \| AI | https://arstechnica.com/ai/feed/ |
+| Google DeepMind Blog | https://blog.google/technology/google-deepmind/rss/ |
+| Google Research | https://research.google/blog/rss/ |
+| Microsoft Research | https://www.microsoft.com/en-us/research/feed/ |
+| Financial Times \| AI | https://www.ft.com/artificial-intelligence?format=rss |
+| SemiAnalysis | https://www.semianalysis.com/feed |
+| Stratechery | https://stratechery.com/feed/ |
+| 量子位 | https://www.qbitai.com/feed |
+
+## 宏观与市场（macro-market）
+| 媒体/板块名称 | RSS源链接 |
+| :--- | :--- |
+| Bloomberg Markets | https://feeds.bloomberg.com/markets/news.rss |
+| WSJ Markets | https://feeds.content.dowjones.io/public/rss/RSSMarketsMain |
+| Financial Markets (FT) | https://www.ft.com/markets?format=rss |
+| CNBC Economy | https://www.cnbc.com/id/20910258/device/rss/rss.html |
+| CNBC Finance | https://www.cnbc.com/id/10000664/device/rss/rss.html |
+| The Economist Finance & Economics | https://www.economist.com/finance-and-economics/rss.xml |
+| Federal Reserve Press (All) | https://www.federalreserve.gov/feeds/press_all.xml |
+| ECB Press | https://www.ecb.europa.eu/rss/press.html |

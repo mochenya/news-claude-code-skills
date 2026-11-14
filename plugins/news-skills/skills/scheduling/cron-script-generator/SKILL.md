@@ -161,7 +161,7 @@ hermes send --to "{TARGET}" \
 
 - 使用 `#!/bin/sh`、`set -u`、`TZ=Asia/Shanghai`；
 - `HERMES_QUERY` 用 `cat <<'EOF'`，避免 prompt 内 `$` 或反引号提前展开；
-- 加载 `. "$HOME/.shell_env"`，确认 `hermes` 可执行；
+- 加载 `. "$HOME/.config/env/.shell_env"`，确认 `hermes` 可执行；
 - 使用 `flock -n` 防止同一任务重入；
 - 日志写入 `{PROFILE_DIR}/logs/cron/{JOB_SLUG}.log`；
 - 支持 `DRY_RUN=1`，仅输出将执行的 `hermes chat -q`；
@@ -206,20 +206,45 @@ status=$?
 
 仅在用户要求安装时修改系统 crontab。
 
-1. 导出：`crontab -l > /tmp/crontab-{job-slug}.txt`
+1. 导出：`crontab -l > /tmp/crontab-{job-slug}.txt`（仅当当前表非空；表为空或「no crontab for user」时跳过导出，直接写全新临时文件，不要用重定向去导出空表）
 2. 向临时文件加入明确注释和一条启动器命令。
 3. 检查差异和命令路径后，执行 `crontab /tmp/crontab-{job-slug}.txt`。
-4. 重新运行 `crontab -l`，确认已安装且无重复任务。
+4. 重新运行 `crontab -l`，确认已安装且无重复任务；整表重建时用 `crontab -l | md5sum` 对比临时文件 md5 并统计条目数做闭环验证。
 
 严禁 `crontab -l | sed ... | crontab -`：中间命令失败可能清空 crontab。
+
+### 导入/恢复旧机器 crontab
+
+把另一台机器的 crontab 整表迁移到本机时，逐条验证后再安装，不整表照抄：
+
+1. **先查系统时区**（`timedatectl` / `date`）：cron 按系统 TZ 运行，若本机 TZ 与旧机器不同，旧表达式全部要换算；同时注意导入时刻——已过某任务当天的触发点，首次运行会顺延一天，向用户说明。
+2. **逐条探测脚本存在性与可执行性**：`for p in <paths>; do [ -x "$p" ] && echo OK || echo ABSENT; done`。只导入脚本真实存在的条目；缺失脚本的条目一律不写入 crontab（否则变成每天报错的僵尸任务），并在交付时明确列出被跳过项与原因，请用户先迁移工具目录再补挂。
+3. **脚本头部定时间**：同一 launcher 常带槽位参数（如 `run-job.sh 0900|1200|...`），以脚本头部 Usage/时间窗口注释为本机调度依据；旧机器时间与本脚本硬编码窗口或既有约定冲突时，不盲从旧表，按脚本声明的窗口/约定调度并向用户说明取舍。
+4. **状态以日志为准**：判断某 launcher 是否活跃用 `ls -lt logs/cron/` 的最近运行日期 + 日志尾部 `finished with status=0`，不依赖旧笔记或旧表注释（脚本可能已在两机之间被改名、停用或恢复启用）。
+5. **横扫兄弟脚本残留**：导入前对全部 `run-*.sh` 快速 grep 已废弃变量（如 `WORKFLOW_FILE`）与旧 env 路径，确认无静默失败隐患后再挂表。
 
 ## 任务不运行的排查
 
 某 cron 任务连续几天没有投递时，按此顺序定位：
 
+0. 先跑 `crontab -l` 确认调度表本身还在：整表被清空时表现为全部任务同时消失。「no crontab for <user>」而 `run-*.sh` 仍在，多半是曾被失败的 `crontab <file>` 安装清空（`crontab -l >` 重定向先截空导出文件 → 误装空表，且原 `crontab -l` 的默认页头注释会被一并抹掉，备份也失真）；用 `cron/crontab.backup.*` 等最近导出核对重建。
+
 1. 看 `{PROFILE_DIR}/logs/cron/{JOB_SLUG}.log` 尾部：有 `start` 行但无 `finished` 行 → 脚本中途退出。搜 `parameter not set`（`set -u` 命中未定义变量，典型为迁移残留 guard）、`not found`、`exit 1`。
 2. 同一 bug 类横扫：`grep -n <可疑变量> cron/run-*.sh`。迁移删掉的变量常同时残留在多个启动器（实例：workflow→Skill 迁移后 `WORKFLOW_FILE` 残留导致两个任务各自静默失败 3 天，日志每天只多一行 `parameter not set`）。修一个必须检查全部兄弟脚本。
 3. 修复后三步验证：`sh -n` → `HOME=<真实家目录> DRY_RUN=1 <script>` 冒烟 → `HOME=<真实家目录> <script>` 手动补跑（手动跑必须显式 `HOME=` 前缀，后端可能把 `$HOME` 改写成 cwd）。以日志中出现 `hermes send` 回执 msg_id 和 `finished with status=0` 为验收，不以进程消失为准。
+
+### 环境文件被改名或整体迁移
+
+启动器共享同一个 env 文件 guard，路径一变即全部任务在同一行 exit 1，且日志只留一行 `missing environment file`。改路径时必须横扫而非逐个修：
+
+```bash
+grep -rln '<旧env路径token>' /home/<user>/.hermes/profiles/*/cron/*.sh \
+  /home/<user>/.hermes/profiles/*/skills /home/<user>/skills
+```
+
+命中面包括：所有 profile 的 `run-*.sh` 与其共享 helper（如 `_post_flight_send.sh`）、生成器 Skill 的 SKILL.md 与 `templates/*.tmpl`、以及把该路径当操作指令写死的其它 Skill 文档。只改启动器不够——模板会把旧路径再生成出来。每个 `.sh` 需同步改三处：存在性 guard、报错文案里的路径、source 行；改后 `sh -n` 全量语法检查，再逐个 `HOME=<真实家目录> DRY_RUN=1 <script>` 冒烟确认能通过 source 步。
+
+验收不能只看 DRY_RUN：DRY_RUN 只证明环境加载与命令拼装，不证明投递。必须另查 `crontab -l` 是否真有该 launcher 行（系统 crontab 不随家目录拷贝迁移），以及各任务日志的最后运行日期——日志集体停在同一天即调度体系整体停摆的信号。
 
 ## 常见错误
 
